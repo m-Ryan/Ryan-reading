@@ -1,0 +1,15 @@
+{
+	"description": "A WePY project",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxd1a8490eee639352",
+	"projectname": "ryan-read",
+	"miniprogramRoot": "./dist",
+	"condition": {}
+}

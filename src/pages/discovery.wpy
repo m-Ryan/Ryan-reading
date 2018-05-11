@@ -1,0 +1,27 @@
+<template>
+  <view class="discovery">
+    <assortment></assortment>
+    <hotEssay></hotEssay>
+    <guess></guess>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import assortment from '../components/assortment';
+import hotEssay from '../components/hotEssay';
+import guess from '../components/guess'
+export default class discovery extends wepy.page  {
+  components={
+    assortment,
+    hotEssay,
+    guess
+  }
+
+}
+</script>
+
+<style>
+
+</style>
+

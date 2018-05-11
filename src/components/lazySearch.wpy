@@ -1,0 +1,86 @@
+<template class="lazySearch">
+  <scroll-view  scroll-y style="height: 100vh;" bindscroll="scroll" bindscrolltolower="scrollTottom">
+    <view>
+     <slot name="header"></slot>
+      <listBox :name.sync="name"></listBox>
+      <view class="lazy-wrap">
+         <view wx:if="{{bottom}}" ><text>已经加载全部...</text></view>
+          <view wx:else>
+           <text  class="lazy-loading">
+             <text class="icon anticon icon-loading1 custom-loading"></text>
+           </text>
+           <text> 正在加载</text>
+         </view>
+      </view>
+    </view>
+
+  </scroll-view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import getEssay from '../mixins/getEssay';
+import listBox from './listBox'
+
+export default class lazySearch extends wepy.component {
+  components = {
+    listBox,
+  };
+  props = {
+     name: String,
+     title: String,
+  }
+  data = {
+    loading: false,
+    bottom: false
+  };
+
+  methods = {
+    async scrollTottom() {
+       if(this.loading) return;
+       this.loading = true;
+       let len = await getEssay.getSearch(this.name);
+       this.loading = false;
+       if(!len) this.bottom = true;
+    },
+    scroll() {
+
+    }
+  };
+  watch={
+    name: function(nv, ov){
+      console.log('新的值'+ nv)
+      this.name = nv;
+      console.log(this)
+       this.$apply();
+    }
+  }
+}
+</script>
+
+<style>
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(3600deg);
+  }
+}
+.custom-loading {
+  font-size: 30rpx;
+  color: #108ec6;
+}
+.lazy-loading {
+  display: inline-block;
+  animation: loading 3s linear infinite;
+}
+.lazy-wrap {
+  text-align: center;
+  color: #666666;
+  font-size: 30rpx;
+}
+.lazy-hidden {
+  display: none;
+}
+</style>

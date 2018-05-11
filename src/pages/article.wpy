@@ -1,0 +1,73 @@
+<template>
+  <view  wx:if="{{!!article}}" class="article">
+      <view class="title"><text>{{article.a_title}}</text></view>
+      <view class="lit-title">
+          <text class="article-item-icon icon anticon icon-clockcircleo"> {{article.a_date}}</text>
+          <text class="article-item-icon icon anticon icon-user"> {{article.a_writer}}</text>
+          <text class="article-item-icon icon anticon icon-tago"> {{article.a_tag}}</text>
+      </view>
+      <view class="content">
+        <view class="show-img"><image src="{{article.a_thumbnail}}"/></view>
+        <rich-text nodes = "{{article.a_html}}"></rich-text>
+
+      </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import getEssay from '../mixins/getEssay.js'
+export default class article extends wepy.page  {
+  data={
+    article: null,
+  }
+  async onLoad(){
+    let paths = getCurrentPages();
+    let currentPath = paths[paths.length - 1];
+    let { title, tag } = currentPath.options;
+     wx.setNavigationBarTitle({
+      title
+    })
+    wx.showLoading("加载中")
+    this.article = await getEssay.getEssayByTitle(title);
+    getEssay.addReadHistory(this.article)
+    this.$apply();
+    wx.hideLoading()
+  }
+}
+</script>
+
+<style>
+.article{
+  padding: 20rpx 40rpx;
+}
+.title{
+  text-align: center;
+  margin-top: 40rpx;
+  font-weight: bold;
+  font-size: 50rpx;
+}
+.content{
+  margin-top: 40rpx;
+}
+.lit-title{
+  display: flex;
+  margin: 30rpx 0;
+  justify-content: space-around;
+}
+.article-item-icon{
+ font-size: 32rpx !important;
+ color: #666;
+}
+p{
+  margin-bottom: 30rpx;
+}
+.show-img image{
+  width: 100%;
+  background: #fff;
+}
+.neighbor-link{
+  display: flex;
+}
+</style>
+

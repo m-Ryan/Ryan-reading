@@ -1,0 +1,56 @@
+<template>
+  <view class="user">
+    <view wx:if="{{user}}" class="user-info">
+      <view><image src="{{user.avatarUrl}}"/></view>
+      <view><text>{{user.nickName}}</text></view>
+    </view>
+    <view class="scan">
+      <readHistory></readHistory>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import readHistory from '../components/readHistory'
+export default class user extends wepy.page  {
+  config={
+    navigationBarTitleText: '我的阅读',
+  }
+  components={
+    readHistory
+  }
+  data={
+    user: null,
+  }
+  onLoad(){
+    try {
+      var user = wx.getStorageSync('user')
+      if (user) {
+         this.user = JSON.parse(user);
+      }
+    } catch (e) {
+      wx.showToast({
+          title: '获取用户信息失败',
+          duration: 2000
+        })
+    }
+  }
+
+}
+</script>
+
+<style>
+.user-info{
+  background: #333;
+  padding: 40rpx;
+  text-align: center;
+  color: #fff;
+}
+.user-info image{
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50vw;
+}
+</style>
+

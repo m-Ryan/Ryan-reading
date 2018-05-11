@@ -1,0 +1,105 @@
+<template>
+  <view class="assortment">
+    <view><text>分类</text></view>
+    <view class="assortment-container">
+      <view wx:for="{{assortment}}" wx:key="index" wx:for-item="item" class="assortment-item">
+        <navigator url="/pages/list?tag={{item.title}}"  hover-class="navigator-hover" >
+          <image mode="scaleToFill" src="{{item.src}}"/>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import assortmentJson from '../config/essayJson.js'
+export default class assortment extends wepy.component {
+    data={
+      assortment: [{
+      "type": "wenyuan",
+      "title": "文苑",
+      "src": "https://www.maocanhua.cn/images/essay_tag/wenyuan.jpg"
+  },{
+      "type": "qinggan",
+      "title": "情感",
+      "src": "https://www.maocanhua.cn/images/essay_tag/qinggan.jpg"
+  }, {
+      "type": "shehui",
+      "title": "社会",
+      "src": "https://www.maocanhua.cn/images/essay_tag/shehui.jpg"
+  }, {
+      "type": "shenghuo",
+      "title": "生活",
+      "src": "https://www.maocanhua.cn/images/essay_tag/shenghuo.jpg"
+  }, {
+      "type": "rensheng",
+      "title": "人生",
+      "src": "https://www.maocanhua.cn/images/essay_tag/rensheng.jpg"
+  }, {
+      "type": "renwu",
+      "title": "人物",
+      "src": "https://www.maocanhua.cn/images/essay_tag/renwu.jpg"
+  }, {
+      "type": "lizhi",
+      "title": "励志",
+      "src": "https://www.maocanhua.cn/images/essay_tag/lizhi.jpg"
+  }, {
+      "type": "shiye",
+      "title": "视野",
+      "src": "https://www.maocanhua.cn/images/essay_tag/shiye.jpg"
+  }, {
+      "type": "xinling",
+      "title": "心灵",
+      "src": "https://www.maocanhua.cn/images/essay_tag/xinling.jpg"
+  }, {
+      "type": "xiaoyuan",
+      "title": "校园",
+      "src": "https://www.maocanhua.cn/images/essay_tag/xiaoyuan.jpg"
+  }, {
+      "type": "zhichang",
+      "title": "职场",
+      "src": "https://www.maocanhua.cn/images/essay_tag/zhichang.jpg"
+  }, {
+      "type": "redu",
+      "title": "热读",
+      "src": "https://www.maocanhua.cn/images/essay_tag/redu.jpg"
+  }]
+    }
+    onLoad(){
+    this.assortment = assortmentJson.types
+  }
+}
+</script>
+
+<style>
+text, view, image{
+    box-sizing: border-box;
+}
+.flex{
+  display: flex;
+  flex: 1
+}
+.assortment{
+  padding:10vw 3.3vw;
+}
+.assortment-container{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap:wrap;
+}
+.assortment-item{
+  width: 45vw;
+  margin-bottom: 3.3vw;
+}
+.assortment-item image{
+  width: 100%;
+  height: 31vw;
+  border: 1rpx solid #ccc;
+  padding: 10rpx;
+  background: #fff;
+}
+.navigator-hover{
+  opacity: 0.8;
+}
+</style>

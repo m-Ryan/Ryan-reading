@@ -1,0 +1,64 @@
+<template>
+  <view class="container">
+    <lazyload name="热读" :bottomHandle="function(){}">
+      <view slot="header">
+        <swipter :swipterData.sync="swipterData"></swipter>
+        <search ></search>
+      </view>
+    </lazyload>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import ServerAPI from '../server/ServerAPI.js';
+import swipter from '../components/swipter';
+import search from '../components/search'
+import listBox from '../components/listBox';
+import lazyload from '../components/lazyload';
+import { connect, getStore } from 'wepy-redux';
+import getEssay from '../mixins/getEssay';
+
+@connect({
+    swipterData(state) {
+      return state.storeEssay["热读"]
+    }
+})
+
+export default class Index extends wepy.page {
+  components = {
+    swipter,
+    search,
+    listBox,
+    lazyload
+  };
+
+
+
+  async onLoad() {
+
+    //保存用户信息
+    let power = await wepy.getSetting();
+    if(power.authSetting['scope.userInfo']){
+      let user = await wepy.getUserInfo();
+      try {
+        wx.setStorageSync('user', JSON.stringify(user.userInfo))
+      } catch (error) {
+        wx.showToast({
+          title: '保存用户信息是失败',
+          icon: 'error',
+          duration: 2000
+        })
+      }
+    }
+
+    //读取浏览历史
+   // getEssay.clearReadHistory();
+  //  getEssay.setReadHistory()
+    let result =  await getEssay.getEssay("热读", 10)
+  }
+}
+</script>
+<style lang="less">
+
+</style>

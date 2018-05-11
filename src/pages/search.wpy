@@ -1,0 +1,60 @@
+<template>
+  <view wx:if="{{total}}" class="search">
+    <lazySearch :name.sync="name" title="标题">
+       <view slot="header">
+        <text>共搜索到相关文章 {{total}} 篇</text>
+      </view>
+    </lazySearch>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import getEssay from '../mixins/getEssay.js';
+import lazySearch from '../components/lazySearch';
+import ServerAPI from '../server/ServerAPI.js';
+
+import { connect, getStore } from 'wepy-redux';
+
+
+
+export default class search extends wepy.page  {
+  components = {
+    lazySearch
+  }
+  data={
+    name: '',
+    total: 0,
+    serchResult: [],
+  }
+  async onLoad(){
+    let paths = getCurrentPages();
+    let currentPath = paths[paths.length - 1];
+    let { title } = currentPath.options;
+     wx.setNavigationBarTitle({
+      title:`搜索 ${title} 的结果`
+    })
+    this.name = title;
+    wx.showLoading("加载中")
+    getEssay.getSearch(title, 10);
+    try {
+      let result = await ServerAPI.getEssayCountByLikeTitle(title);
+      if(result){
+        this.total = result;
+      }
+    } catch (error) {
+
+    }
+    this.$apply();
+    wx.hideLoading()
+  }
+}
+</script>
+
+<style>
+.search{
+  padding: 20rpx 40rpx;
+}
+
+</style>
+

@@ -1,0 +1,44 @@
+<template>
+  <view class="container">
+    <lazyload wx:if="{{!!tag}}" :name.sync="tag">
+    </lazyload>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import swipter from '../components/swipter';
+import search from '../components/search'
+import listBox from '../components/listBox';
+import lazyload from '../components/lazyload';
+import { getStore } from 'wepy-redux';
+import getEssay from '../mixins/getEssay'
+
+const state = getStore().getState()
+export default class List extends wepy.page {
+  data = {
+    tag: ''
+  }
+  components = {
+    listBox,
+    lazyload
+  };
+  async onLoad(){
+    let paths = getCurrentPages();
+    let currentPath = paths[paths.length - 1];
+    let { tag } = currentPath.options;
+    wx.setNavigationBarTitle({
+      title: tag
+    })
+    this.tag = tag;
+    if(!state.storeEssay[tag]){
+      wx.showLoading("加载中")
+      await getEssay.getEssay(tag, 10)
+      wx.hideLoading()
+    }
+  }
+}
+</script>
+<style lang="less">
+
+</style>

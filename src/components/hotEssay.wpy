@@ -1,0 +1,41 @@
+<template>
+  <view class="hotEssay">
+    <view><text>分类</text></view>
+     <listBox :name="name"></listBox>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import listBox from './listBox'
+import { getStore } from 'wepy-redux';
+import getEssay from '../mixins/getEssay';
+const state = getStore().getState()
+
+export default class hotEssay extends wepy.component {
+  components={
+    listBox
+  }
+  data={
+    name: 'hotEssay'
+  }
+  async onLoad(){
+    if(!state.storeEssay[this.name]){
+      wx.showLoading("加载中")
+      await getEssay.getHotEssay(0, 5)
+      wx.hideLoading()
+    }
+  }
+}
+</script>
+
+<style>
+text, view, image{
+    box-sizing: border-box;
+}
+.flex{
+  display: flex;
+  flex: 1
+}
+
+</style>

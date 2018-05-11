@@ -1,0 +1,91 @@
+<style lang="less">
+@import './weui.wxss';
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: #eeeeee;
+}
+
+</style>
+
+<script>
+import wepy from 'wepy';
+import 'wepy-async-function';
+import { createStore } from 'redux';
+import { setStore } from 'wepy-redux';
+import rootReducer from './modal/reducers';
+const store = createStore(rootReducer);
+setStore(store);
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/list',
+      'pages/user',
+      'pages/discovery',
+      'pages/article',
+      'pages/search',
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#333',
+      navigationBarTitleText: 'Ryan 阅读',
+      navigationBarTextStyle: '#fff'
+    },
+    tabBar: {
+      color: '#a9b7b7',
+      selectedColor: '#11cd6e',
+      borderStyle: 'white',
+      list: [
+        {
+          text: '首页',
+          selectedIconPath: "./icon/home.png",
+          iconPath: "./icon/home-o.png",
+          pagePath: 'pages/index'
+        },
+        {
+          text: '发现',
+          selectedIconPath: "./icon/monitor.png",
+          iconPath: "./icon/monitor-o.png",
+          pagePath: 'pages/discovery'
+        },
+        {
+          pagePath: 'pages/user',
+          selectedIconPath: "./icon/user.png",
+          iconPath: "./icon/user-o.png",
+          text: '用户'
+        }
+      ]
+    }
+  };
+
+  globalData = {
+    userInfo: null
+  };
+
+  constructor() {
+    super();
+    this.use('requestfix');
+    this.use('promisify');
+  }
+
+  onLaunch() {}
+
+  getUserInfo(cb) {
+    const that = this;
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo;
+    }
+    wepy.getUserInfo({
+      success(res) {
+        that.globalData.userInfo = res.userInfo;
+        cb && cb(res.userInfo);
+      }
+    });
+  }
+}
+</script>

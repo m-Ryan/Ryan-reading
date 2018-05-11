@@ -1,0 +1,80 @@
+<template>
+  <view class="listItem">
+      <navigator url="/pages/article?title={{data.a_title}}&tag={{data.a_tag}}"  hover-class="navigator-hover" class="list-item">
+        <view class="list-img"><image src="{{data.a_thumbnail}}"/></view>
+        <view class="list-content">
+            <view><text class="list-title">{{data.a_title}}</text></view>
+            <view class="list-info">
+              <text class="list-item-icon icon anticon icon-clockcircleo"> {{data.a_date}}</text>
+              <text class="list-item-icon icon anticon icon-eyeo"> {{data.a_readcount}}</text>
+              <text class="list-item-icon icon anticon icon-meh"> {{data.a_tag}}</text>
+            </view>
+        </view>
+      </navigator>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { connect } from 'wepy-redux'
+@connect({
+    storeEssay(state) {
+      return state.storeEssay
+    },
+  })
+export default class listItem extends wepy.component {
+  props ={
+    data: Object,
+  }
+  onLoad(){
+    console.log(this.data)
+  }
+}
+</script>
+
+<style lang="less">
+.listItem{
+  width: 100%;
+}
+.list-item{
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1rpx solid #cccccc;
+  margin: 16rpx;
+  padding: 20rpx;
+}
+.list-img{
+  width: 260rpx;
+  height: 200rpx;
+  overflow: hidden;
+}
+.list-img image{
+  width: 100%;
+  height: 100%;
+}
+.list-content{
+  flex: 1;
+  overflow: hidden;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 30rpx;
+}
+.list-title{
+  width: 100%;
+  overflow: hidden;
+  font-size: 38rpx;
+}
+.list-item-icon{
+ font-size: 24rpx !important;
+
+}
+.list-info{
+  color: #666666;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>

@@ -1,0 +1,57 @@
+<template>
+  <view class="search">
+    <input  maxlength="10"
+            placeholder="请输入要搜索的文章..."
+            class="search-input"
+            placeholder-class="placeholder"
+            confirm-type="search"
+            bindinput="bindValue"
+            bindconfirm="tosearch"
+    />
+     <view bindtap="tosearch"><icon  type="search" size="18" color="#ddd" class="search-icon"/></view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Search extends wepy.component {
+  data={
+    searchKey: ''
+  }
+  methods={
+    bindValue(e){
+      this.searchKey = e.detail.value;
+    },
+    tosearch(){
+      wx.navigateTo({
+        url: `search?title=${this.searchKey}`
+      })
+    }
+  }
+}
+</script>
+
+<style>
+.search{
+  width: 100%;
+  position: relative;
+}
+.search-input{
+  margin:16rpx;
+  padding:8rpx;
+  background:#ffffff;
+  border-radius:5rpx;
+  border:1px solid #cccccc;
+
+}
+.search-icon{
+  position: absolute;
+  right: 30rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index:999
+}
+.placeholder{
+  color: #dddddd;
+}
+</style>
