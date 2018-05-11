@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <lazyload name="热读" :bottomHandle="function(){}">
+    <lazyload name="newEssay">
       <view slot="header">
         <swipter :swipterData.sync="swipterData"></swipter>
         <search ></search>
@@ -21,7 +21,7 @@ import getEssay from '../mixins/getEssay';
 
 @connect({
     swipterData(state) {
-      return state.storeEssay["热读"]
+      return state.storeEssay["情感"]
     }
 })
 
@@ -51,11 +51,13 @@ export default class Index extends wepy.page {
         })
       }
     }
-
     //读取浏览历史
    // getEssay.clearReadHistory();
-  //  getEssay.setReadHistory()
-    let result =  await getEssay.getEssay("热读", 10)
+    getEssay.setReadHistory()
+    wx.showLoading({title:"加载中"})
+    await getEssay.getEssay("情感", 4)
+    wx.hideLoading()
+
   }
 }
 </script>

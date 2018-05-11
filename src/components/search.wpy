@@ -33,15 +33,16 @@ export default class Search extends wepy.component {
 
 <style>
 .search{
-  width: 100%;
+  padding:14rpx;
   position: relative;
+  background:#ffffff;
+  display: flex;
 }
 .search-input{
-  margin:16rpx;
-  padding:8rpx;
-  background:#ffffff;
+  padding: 14rpx;
   border-radius:5rpx;
-  border:1px solid #cccccc;
+  border: 2rpx solid #c9c9c9;
+  flex:1;
 
 }
 .search-icon{
@@ -53,5 +54,7 @@ export default class Search extends wepy.component {
 }
 .placeholder{
   color: #dddddd;
+  font-weight: 200;
+  font-size: 28rpx;
 }
 </style>

@@ -1,17 +1,18 @@
 <template class="lazyload">
-  <scroll-view  scroll-y style="height: 100vh;" bindscroll="scroll" bindscrolltolower="scrollTottom">
+  <scroll-view  scroll-y style="height: 100vh;" bindscrolltolower="scrollTottom">
     <view>
      <slot name="header"></slot>
       <listBox :name.sync="name"></listBox>
       <view class="lazy-wrap">
-         <view wx:if="{{bottom}}" ><text>已经加载全部...</text></view>
-          <view wx:else>
+         <view wx:if="{{!!bottom}}" ><text>已经加载全部...</text></view>
+         <view wx:else>
            <text  class="lazy-loading">
              <text class="icon anticon icon-loading1 custom-loading"></text>
            </text>
            <text> 正在加载</text>
-         </view>
+          </view>
       </view>
+      <slot name="footer"></slot>
     </view>
 
   </scroll-view>
@@ -32,21 +33,35 @@ export default class lazyload extends wepy.component {
   data = {
     dataSource: [],
     loading: false,
-    bottom: false
+    bottom: false,
+    num: 5
   };
 
   methods = {
-    async scrollTottom() {
-       if(this.loading) return;
-       this.loading = true;
-       let len = await getEssay.getEssay(this.name);
-       this.loading = false;
-       if(!len) this.bottom = true;
+     scrollTottom() {
+      this.scrollTottom();
     },
-    scroll() {
-
-    }
   };
+  async scrollTottom(){
+    if(this.loading || !this.name) return;
+    this.loading = true;
+    let len = await getEssay.getEssay(this.name, this.num);
+    this.loading = false;
+    if(len < this.num ){
+       this.bottom = true;
+       this.$apply();
+    }
+  }
+   onLoad(){
+     this.scrollTottom()
+  }
+  watch={
+    name: function (newValue, oldValue) {
+      if(!newValue) return;
+      this.name = newValue;
+      this.scrollTottom();
+    }
+  }
 }
 </script>
 

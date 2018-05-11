@@ -26,19 +26,20 @@ export default class extends wepy.app {
       'pages/index',
       'pages/list',
       'pages/user',
+      'pages/about',
       'pages/discovery',
       'pages/article',
       'pages/search',
     ],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'black',
       navigationBarBackgroundColor: '#333',
       navigationBarTitleText: 'Ryan 阅读',
       navigationBarTextStyle: '#fff'
     },
     tabBar: {
-      color: '#a9b7b7',
-      selectedColor: '#11cd6e',
+      color: '#666',
+      selectedColor: '#333',
       borderStyle: 'white',
       list: [
         {
@@ -58,13 +59,19 @@ export default class extends wepy.app {
           selectedIconPath: "./icon/user.png",
           iconPath: "./icon/user-o.png",
           text: '用户'
+        },
+        {
+          pagePath: 'pages/about',
+          selectedIconPath: "./icon/link.png",
+          iconPath: "./icon/link-o.png",
+          text: '关于我们'
         }
       ]
     }
   };
 
   globalData = {
-    userInfo: null
+    userInfo: null,
   };
 
   constructor() {

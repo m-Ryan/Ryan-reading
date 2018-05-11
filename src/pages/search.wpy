@@ -1,9 +1,6 @@
 <template>
   <view wx:if="{{total}}" class="search">
     <lazySearch :name.sync="name" title="标题">
-       <view slot="header">
-        <text>共搜索到相关文章 {{total}} 篇</text>
-      </view>
     </lazySearch>
   </view>
 </template>
@@ -31,12 +28,8 @@ export default class search extends wepy.page  {
     let paths = getCurrentPages();
     let currentPath = paths[paths.length - 1];
     let { title } = currentPath.options;
-     wx.setNavigationBarTitle({
-      title:`搜索 ${title} 的结果`
-    })
     this.name = title;
-    wx.showLoading("加载中")
-    getEssay.getSearch(title, 10);
+      wx.showLoading({title:"加载中"})
     try {
       let result = await ServerAPI.getEssayCountByLikeTitle(title);
       if(result){
@@ -45,6 +38,9 @@ export default class search extends wepy.page  {
     } catch (error) {
 
     }
+    wx.setNavigationBarTitle({
+      title:` “${title}” 的搜索结果 ${this.total} 条`
+    })
     this.$apply();
     wx.hideLoading()
   }
@@ -52,9 +48,13 @@ export default class search extends wepy.page  {
 </script>
 
 <style>
-.search{
-  padding: 20rpx 40rpx;
+.red-font{
+  color: #c00;
+  font-weight: 400;
 }
-
+.search-footer{
+  text-align: center;
+  background: #fff;
+}
 </style>
 

@@ -1,9 +1,11 @@
 <template>
   <swiper class="swipter">
       <block wx:for="{{swipterData}}" wx:key="index">
-        <swiper-item class="swiper-item">
+        <swiper-item>
+          <navigator url="/pages/article?title={{item.a_title}}&tag={{item.a_tag}}"  hover-class="navigator-hover" class="swiper-item">
           <image src="{{item.a_thumbnail}}" class="slide-image"/>
           <text class="swipter_title">{{item.a_title}}</text>
+          </navigator>
         </swiper-item>
       </block>
     </swiper>
@@ -28,7 +30,7 @@ export default class swipter extends wepy.component {
 
 <style lang="less">
   .swipter{
-    height: 400rpx;
+    height: 500rpx;
     width: 100%;
   }
   .swipter .swiper-item{
@@ -47,6 +49,7 @@ export default class swipter extends wepy.component {
   }
   .swipter .swiper-item image{
     width: 100%;
-    height: 100%;
+    height: 500rpx;
+        box-sizing: border-box;
   }
 </style>

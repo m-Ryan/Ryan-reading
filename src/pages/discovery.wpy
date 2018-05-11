@@ -22,6 +22,8 @@ export default class discovery extends wepy.page  {
 </script>
 
 <style>
-
+.discovery{
+  padding:3.3vw;
+}
 </style>
 

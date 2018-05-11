@@ -28,7 +28,7 @@ export default class article extends wepy.page  {
      wx.setNavigationBarTitle({
       title
     })
-    wx.showLoading("加载中")
+    wx.showLoading({title:"加载中"})
     this.article = await getEssay.getEssayByTitle(title);
     getEssay.addReadHistory(this.article)
     this.$apply();

@@ -1,6 +1,6 @@
 <template>
-  <view class="hotEssay">
-    <view><text>猜你喜欢</text></view>
+  <view class="guess">
+     <view class="guess-title"><text>猜你喜欢</text></view>
      <listBox :name="name"></listBox>
   </view>
 </template>
@@ -12,7 +12,7 @@ import { getStore } from 'wepy-redux';
 import getEssay from '../mixins/getEssay';
 const state = getStore().getState()
 
-export default class hotEssay extends wepy.component {
+export default class guess extends wepy.component {
   components={
     listBox
   }
@@ -21,9 +21,7 @@ export default class hotEssay extends wepy.component {
   }
   async onLoad(){
     if(!state.storeEssay[this.name]){
-      wx.showLoading("加载中")
-      await getEssay.getRandEssay(0, 3)
-      wx.hideLoading()
+      getEssay.getRandEssay(0, 3)
     }
   }
 }
@@ -37,5 +35,12 @@ text, view, image{
   display: flex;
   flex: 1
 }
-
+.guess-title{
+  font-weight:bold;
+  font-size:50rpx;
+  color:#666;
+}
+.guess{
+    margin-bottom: 60rpx;
+}
 </style>

@@ -22,13 +22,17 @@ export default class getEssay {
       }
     }
 
-    static async getEssay(name, num= 10) {
+    static async getEssay(name, num= 5) {
       let result = null;
       let state = store.getState();
       let cstate=state.storeEssay[name]
       let begin = cstate &&　cstate.length || 0;
       try {
-        result = await ServerAPI.getEssayByTagName(name, begin, num);
+        if(name === 'newEssay'){
+          result = await ServerAPI.getNewEssay(begin, num);
+        }else{
+          result = await ServerAPI.getEssayByTagName(name, begin, num);
+        }
       } catch (e) {
         return null
       }
@@ -119,30 +123,29 @@ export default class getEssay {
       })
     }
 
-    static async getSearch(title, num){
+    static async getSearch(title, num=5){
       let result = null;
-      let name = 'search-'+title
+      let name = title
       let state = store.getState();
-      let cstate=state.storeEssay[name]
+      let cstate=state.storeSearch[name]
       let begin = cstate &&　cstate.length || 0;
       try {
         result = await ServerAPI.getEssayByLikeTitle(title, begin, num);
+        if (result) {
+            //将图片路径改为完整路径
+            result = result.map(item => {
+              item.a_thumbnail = parseImg(item.a_thumbnail);
+              return item;
+            })
+            store.dispatch({
+              type: 'ADD_SEARCH',
+              data: result,
+              name
+            })
+            return result.length;
+          }
       } catch (e) {
-        return null
-      }
-      if (result) {
-
-        //将图片路径改为完整路径
-        result = result.map(item => {
-          item.a_thumbnail = parseImg(item.a_thumbnail);
-          return item;
-        })
-        store.dispatch({
-          type: 'ADD_ESSAY',
-          data: result,
-          name
-        })
-        return result.length;
+        return 0
       }
     }
 }

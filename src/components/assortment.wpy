@@ -1,10 +1,11 @@
 <template>
   <view class="assortment">
-    <view><text>分类</text></view>
+    <view class="assortment-title"><text>分类</text></view>
     <view class="assortment-container">
       <view wx:for="{{assortment}}" wx:key="index" wx:for-item="item" class="assortment-item">
-        <navigator url="/pages/list?tag={{item.title}}"  hover-class="navigator-hover" >
+        <navigator url="/pages/list?tag={{item.title}}"  hover-class="navigator-hover" class="assortment-item-link">
           <image mode="scaleToFill" src="{{item.src}}"/>
+          <text class="assortment-item-title">{{item.title}}</text>
         </navigator>
       </view>
     </view>
@@ -81,7 +82,13 @@ text, view, image{
   flex: 1
 }
 .assortment{
-  padding:10vw 3.3vw;
+  margin-bottom: 40rpx;
+}
+.assortment-title{
+  font-weight:bold;
+  font-size:50rpx;
+  color:#666;
+  padding-bottom: 20rpx;
 }
 .assortment-container{
   display: flex;
@@ -92,12 +99,24 @@ text, view, image{
   width: 45vw;
   margin-bottom: 3.3vw;
 }
+.assortment-item-link{
+  position: relative;
+}
 .assortment-item image{
   width: 100%;
   height: 31vw;
   border: 1rpx solid #ccc;
   padding: 10rpx;
   background: #fff;
+}
+.assortment-item-title{
+  position:absolute;
+  left:17px;
+  top:40rpx;
+  color:#fff;
+  font-weight:bold;
+  text-shadow:5px 5px 5px #000;
+
 }
 .navigator-hover{
   opacity: 0.8;

@@ -32,7 +32,7 @@ export default class List extends wepy.page {
     })
     this.tag = tag;
     if(!state.storeEssay[tag]){
-      wx.showLoading("加载中")
+        wx.showLoading({title:"加载中"})
       await getEssay.getEssay(tag, 10)
       wx.hideLoading()
     }

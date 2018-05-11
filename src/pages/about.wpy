@@ -1,0 +1,39 @@
+<template>
+  <view class="about">
+      <view class="text-center">
+        <view><image src="https://www.maocanhua.cn/images/QR.png" class="QR"/></view>
+        <view><text>关注我的博客</text></view>
+      </view>
+
+      <view class="about-info">
+        <view><text>开发者信息</text></view>
+        <view><text>开发者：毛灿华</text></view>
+        <view><text>博客：http://www.maocanhua.cn</text></view>
+        <view><text>邮箱：m-ryan@foxmail.com</text></view>
+        <view><text>最后更新时间：2018-05-12</text></view>
+      </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class about extends wepy.page {
+
+}
+</script>
+
+<style>
+.about{
+  padding: 3.3vw 10vw;
+}
+.QR{
+  width: 60vw;
+  height: 60vw;
+}
+.text-center{
+  text-align: center;
+}
+.about-info{
+  margin-top:50rpx;
+}
+</style>

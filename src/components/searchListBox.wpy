@@ -1,0 +1,74 @@
+<template>
+  <view class="listBox">
+    <repeat for="{{storeSearch[name]}}" key="index" index="index" item="item">
+        <listItem :data="item"></listItem>
+    </repeat>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { connect } from 'wepy-redux';
+import listItem from './listItem';
+@connect({
+    storeSearch(state) {
+      return state.storeSearch
+    },
+  })
+export default class ListBox extends wepy.component {
+  components = {
+    listItem
+  }
+  props ={
+    name: String,
+  }
+}
+</script>
+
+<style lang="less">
+.listBox{
+  background: #fafafa;
+  padding: 16rpx 0;
+}
+.list-item{
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1rpx solid #cccccc;
+  margin: 16rpx;
+  padding: 20rpx;
+}
+.list-img{
+  width: 260rpx;
+  height: 200rpx;
+  overflow: hidden;
+}
+.list-img image{
+  width: 100%;
+  height: 100%;
+}
+.list-content{
+  flex: 1;
+  overflow: hidden;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 30rpx;
+}
+.list-title{
+  width: 100%;
+  overflow: hidden;
+  font-size: 38rpx;
+}
+.list-item-icon{
+ font-size: 24rpx !important;
+
+}
+.list-info{
+  color: #666666;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>

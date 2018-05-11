@@ -57,6 +57,9 @@ class ServerAPI {
       static getRandEssay(begin, num){
         return request(host+`/get_rand_essay?begin=${begin}&num=${num}`,this.getHeaders());
       }
+      static getNewEssay(begin, num){
+        return request(host+`/get_new_essay?begin=${begin}&num=${num}`,this.getHeaders());
+      }
 
 
 

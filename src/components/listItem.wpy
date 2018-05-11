@@ -1,7 +1,7 @@
 <template>
   <view class="listItem">
       <navigator url="/pages/article?title={{data.a_title}}&tag={{data.a_tag}}"  hover-class="navigator-hover" class="list-item">
-        <view class="list-img"><image src="{{data.a_thumbnail}}"/></view>
+        <view class="list-img"><image src="{{data.a_thumbnail}}" lazy-load="{{true}}"/></view>
         <view class="list-content">
             <view><text class="list-title">{{data.a_title}}</text></view>
             <view class="list-info">
@@ -16,31 +16,20 @@
 
 <script>
 import wepy from 'wepy';
-import { connect } from 'wepy-redux'
-@connect({
-    storeEssay(state) {
-      return state.storeEssay
-    },
-  })
+
 export default class listItem extends wepy.component {
   props ={
     data: Object,
-  }
-  onLoad(){
-    console.log(this.data)
   }
 }
 </script>
 
 <style lang="less">
-.listItem{
-  width: 100%;
-}
 .list-item{
   display: flex;
   background: #ffffff;
   border-bottom: 1rpx solid #cccccc;
-  margin: 16rpx;
+  margin-bottom: 16rpx;
   padding: 20rpx;
 }
 .list-img{

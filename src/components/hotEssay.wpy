@@ -1,6 +1,6 @@
 <template>
   <view class="hotEssay">
-    <view><text>分类</text></view>
+     <view class="hotEssay-title"><text>分类</text></view>
      <listBox :name="name"></listBox>
   </view>
 </template>
@@ -21,9 +21,7 @@ export default class hotEssay extends wepy.component {
   }
   async onLoad(){
     if(!state.storeEssay[this.name]){
-      wx.showLoading("加载中")
-      await getEssay.getHotEssay(0, 5)
-      wx.hideLoading()
+       getEssay.getHotEssay(0, 5)
     }
   }
 }
@@ -37,5 +35,12 @@ text, view, image{
   display: flex;
   flex: 1
 }
-
+.hotEssay{
+    margin-bottom: 60rpx;
+}
+.hotEssay-title{
+  font-weight:bold;
+  font-size:50rpx;
+  color:#666;
+}
 </style>

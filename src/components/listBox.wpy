@@ -1,90 +1,32 @@
 <template>
   <view class="listBox">
-      <view wx:for="{{storeEssay[name]}}" wx:key="index" class="listItem">
-        <navigator url="/pages/article?title={{item.a_title}}&tag={{item.a_tag}}"  hover-class="navigator-hover" class="list-item">
-          <view class="list-img"><image src="{{item.a_thumbnail}}"/></view>
-          <view class="list-content">
-              <view><text class="list-title">{{item.a_title}}</text></view>
-              <view class="list-info">
-                <text class="list-item-icon icon anticon icon-clockcircleo"> {{item.a_date}}</text>
-                <text class="list-item-icon icon anticon icon-eyeo"> {{item.a_readcount}}</text>
-                <text class="list-item-icon icon anticon icon-meh"> {{item.a_tag}}</text>
-              </view>
-          </view>
-        </navigator>
-    </view>
+     <repeat for="{{storeEssay[name]}}" key="index" index="index" item="item">
+        <listItem :data="item"></listItem>
+    </repeat>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 import { connect } from 'wepy-redux';
+import listItem from './listItem';
 @connect({
     storeEssay(state) {
       return state.storeEssay
     },
   })
 export default class ListBox extends wepy.component {
+  components = {
+    listItem
+  }
   props ={
     name: String,
-  }
-  onLoad(){
-    console.log('listbox')
-    console.log(this.name)
-  }
-  watch={
-    name: function(nv, ov){
-      console.log('新的值'+ nv)
-      this.name = nv;
-      console.log(this)
-    }
   }
 }
 </script>
 
 <style lang="less">
 .listBox{
-  width: 100%;
-}
-.list-item{
-  display: flex;
-  background: #ffffff;
-  border-bottom: 1rpx solid #cccccc;
-  margin: 16rpx;
-  padding: 20rpx;
-}
-.list-img{
-  width: 260rpx;
-  height: 200rpx;
-  overflow: hidden;
-}
-.list-img image{
-  width: 100%;
-  height: 100%;
-}
-.list-content{
-  flex: 1;
-  overflow: hidden;
-  padding-left: 40rpx;
-  padding-right: 40rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-bottom: 30rpx;
-}
-.list-title{
-  width: 100%;
-  overflow: hidden;
-  font-size: 38rpx;
-}
-.list-item-icon{
- font-size: 24rpx !important;
-
-}
-.list-info{
-  color: #666666;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background: #fafafa;
 }
 </style>

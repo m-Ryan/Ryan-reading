@@ -4,6 +4,8 @@ import {
 const SET_USER='SET_USER';
 const SET_ESSAY='SET_ESSAY';
 const ADD_ESSAY='ADD_ESSAY';
+const SET_SEARCH='SET_SEARCH';
+const ADD_SEARCH='ADD_SEARCH';
 const ADD_HISTORY='ADD_HISTORY';
 const SET_HISTORY='SET_HISTORY';
 const CLEAR_HISTORY='CLEAR_HISTORY';
@@ -33,6 +35,22 @@ function storeEssay(state = {}, action) {
   }
 }
 
+function storeSearch(state = {}, action) {
+  const { name, data, type } = action;
+  switch (type) {
+      case ADD_SEARCH:
+        if(!state[name]) state[name] = []
+        state[name]=state[name].concat(data);
+        return {...state};
+      case SET_SEARCH:
+        if(!state[name]) state[name] = []
+        state[name]=data;
+        return {...state};
+      default:
+          return state;
+  }
+}
+
 function storeReadHistory(state = [], action) {
   const { type, data } = action;
   switch (type) {
@@ -44,10 +62,10 @@ function storeReadHistory(state = [], action) {
       initState = Array.isArray(initState)?initState:[]
      return [...initState];
     case ADD_HISTORY:
-      //如果已经存了，就不要了
-      if(state.some(item=>item.a_title === data.a_title)) return state;
+      //如果已经存了，就删除加添加
+      state=state.filter(item=>item.a_title !== data.a_title);
 
-      state.push(data);
+      state.unshift(data);
       if(state.length>30) state.shift();
       try {
         wx.setStorageSync('readHistory', JSON.stringify(state))
@@ -69,7 +87,8 @@ function storeReadHistory(state = [], action) {
 const reduceData = combineReducers({
   storeUser,
   storeEssay,
-  storeReadHistory
+  storeReadHistory,
+  storeSearch
 })
 
 export default reduceData

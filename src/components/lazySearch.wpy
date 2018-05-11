@@ -1,17 +1,18 @@
-<template class="lazySearch">
-  <scroll-view  scroll-y style="height: 100vh;" bindscroll="scroll" bindscrolltolower="scrollTottom">
+<template class="lazyload">
+  <scroll-view  scroll-y style="height: 100vh;" bindscrolltolower="scrollTottom">
     <view>
      <slot name="header"></slot>
-      <listBox :name.sync="name"></listBox>
+      <searchListBox :name.sync="name"></searchListBox>
       <view class="lazy-wrap">
-         <view wx:if="{{bottom}}" ><text>已经加载全部...</text></view>
-          <view wx:else>
+         <view wx:if="{{!!bottom}}" ><text>已经加载全部...</text></view>
+         <view wx:else>
            <text  class="lazy-loading">
              <text class="icon anticon icon-loading1 custom-loading"></text>
            </text>
            <text> 正在加载</text>
-         </view>
+          </view>
       </view>
+      <slot name="footer"></slot>
     </view>
 
   </scroll-view>
@@ -20,39 +21,45 @@
 <script>
 import wepy from 'wepy';
 import getEssay from '../mixins/getEssay';
-import listBox from './listBox'
+import searchListBox from './searchListBox'
 
-export default class lazySearch extends wepy.component {
+export default class lazyload extends wepy.component {
   components = {
-    listBox,
+    searchListBox,
   };
   props = {
      name: String,
-     title: String,
   }
   data = {
+    dataSource: [],
     loading: false,
-    bottom: false
+    bottom: false,
+    num: 5
   };
 
   methods = {
-    async scrollTottom() {
-       if(this.loading) return;
-       this.loading = true;
-       let len = await getEssay.getSearch(this.name);
-       this.loading = false;
-       if(!len) this.bottom = true;
+     scrollTottom() {
+      this.scrollTottom();
     },
-    scroll() {
-
-    }
   };
-  watch={
-    name: function(nv, ov){
-      console.log('新的值'+ nv)
-      this.name = nv;
-      console.log(this)
+  async scrollTottom(){
+    if(this.loading || !this.name) return;
+    this.loading = true;
+    let len = await getEssay.getSearch(this.name, this.num);
+    this.loading = false;
+    if(len < this.num ){
+       this.bottom = true;
        this.$apply();
+    }
+  }
+   onLoad(){
+     this.scrollTottom()
+  }
+  watch={
+    name: function (newValue, oldValue) {
+      if(!newValue) return;
+      this.name = newValue;
+      this.scrollTottom();
     }
   }
 }

@@ -21,7 +21,10 @@ export default class user extends wepy.page  {
     readHistory
   }
   data={
-    user: null,
+    user: {
+      avatarUrl: '',
+      nickName: '匿名'
+    },
   }
   onLoad(){
     try {
